@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mapbox Vector Tiles</title>
+    <link rel="stylesheet" href="https://openlayers.org/en/v4.6.5/css/ol.css" type="text/css">
+    <!-- The line below is only needed for old environments like Internet Explorer and Android 4.x -->
+    <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=requestAnimationFrame,Element.prototype.classList,URL"></script>
+    <script src="https://openlayers.org/en/v4.6.5/build/ol.js"></script>
+    <script src="https://openlayers.org/en/v4.6.5/examples/resources/mapbox-streets-v6-style.js"></script>
+    <script src="../static/jscolor.js"></script>
+    <style>
+        .map {
+            background: #f8f4f0;
+            height: 600px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+<div id="map" class="map"></div>
+
+
+<hr />
+<h3>CHOOSE COLOR</h3>
+
+<input class="jscolor {onFineChange:'update(this)'}" value="ffcc00">
+
+<hr/>
+
+<script>
+    var changeColor = '#000000';
+
+    function update(picker) {
+        changeColor = "#" + picker.toString();
+{#change the style of poi#}
+        vtlayers.setStyle(
+            new ol.style.Style({
+        //图形样式，主要适用于点样式
+        image: new ol.style.Circle({
+            //半径大小
+            radius: 7,
+            //填充
+            fill: new ol.style.Fill({
+                //填充颜色
+                color: changeColor
+            })
+        })
+    }),
+
+{#change the style of ploygon#}
+            vt_polygon_layers.setStyle(
+                new ol.style.Style({
+                    fill: new ol.style.Fill({ //矢量图层填充颜色，以及透明度
+                        color: 'rgba(255, 255, 255, 0.6)'
+                    }),
+                    stroke: new ol.style.Stroke({ //边界样式
+                        color: changeColor,
+                        width: 1
+                    })
+                })
+            )
+
+        );
+
+
+
+
+
+    }
+{#point style#}
+    var stylepoint = new ol.style.Style({
+        //图形样式，主要适用于点样式
+        image: new ol.style.Circle({
+            //半径大小
+            radius: 7,
+            //填充
+            fill: new ol.style.Fill({
+                //填充颜色
+                color: changeColor
+            })
+        })
+    });
+{#polygon style#}
+    var polygon_style = new ol.style.Style({
+        fill: new ol.style.Fill({ //矢量图层填充颜色，以及透明度
+            color: 'rgba(255, 255, 255, 0.6)'
+        }),
+        stroke: new ol.style.Stroke({ //边界样式
+            color: '#319FD3',
+            width: 1
+        })
+    });
+
+
+{#add vt_points layers#}
+    var vtlayers = new ol.layer.VectorTile({
+        declutter: true,
+        source: new ol.source.VectorTile({
+            format: new ol.format.MVT(),
+            url: 'http://10.6.224.5:8000/XXYL/{z}/{x}/{y}'
+        }),
+        style:stylepoint
+    });
+{#add vt_polygon layers#}
+        var vt_polygon_layers = new ol.layer.VectorTile({
+        declutter: true,
+        source: new ol.source.VectorTile({
+            format: new ol.format.MVT(),
+            url: 'http://10.6.224.5:8000/1/{z}/{x}/{y}'
+        }),
+        style: polygon_style
+    });
+
+
+    var map = new ol.Map({
+        layers: [
+            new ol.layer.Tile({
+                source: new ol.source.OSM()
+            }),
+            vtlayers,
+            vt_polygon_layers
+        ],
+        target: 'map',
+        view: new ol.View({
+            center: [10000000,1000000],
+            zoom: 3
+        })
+    });
+
+
+</script>
+</body>
+</html>
