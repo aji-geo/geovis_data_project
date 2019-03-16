@@ -1,9 +1,13 @@
 from django.shortcuts import render
 from django.shortcuts import HttpResponse
 from basemap import models  # 导入models文件
+from datetime import datetime, timedelta, date
+from geojson import Feature, FeatureCollection, Point
+import geojson
+import pandas
+import math
 
 # Create your views here.
-
 
 def index(request):
     return render(request, 'index.html')
@@ -43,3 +47,5 @@ def get_polyTile(request, option, z, x, y):
             return rsp
         else:
             return rsp
+
+

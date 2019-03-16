@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path
 from django.conf.urls import url
 from basemap import views as basemap_views
+from thematicdata import views as thematic_view
 
 
 urlpatterns = [
@@ -27,5 +28,7 @@ urlpatterns = [
     url(r'^XXYL/(\d+)/(\d+)/(\d+)$', basemap_views.get_Tile),
     # #  basemap_app_views
     url(r'^(\d+)/(\d+)/(\d+)/(\d+)$', basemap_views.get_polyTile),
+    # #  AQI_realtime
+    url(r'^AQI/realtime/$', thematic_view.ditu),
 
 ]

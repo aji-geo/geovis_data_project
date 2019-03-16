@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'basemap',
-    'corsheaders'
+    'thematicdata',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -120,6 +121,14 @@ DATABASES = {
     'xian':{
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'data/xian.mbtiles'),
+    },
+    'aqi': {   #配置第二个数据库节点名称
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'jungao', #第二个数据库的名称
+        'USER': 'root',
+        'PASSWORD': '123456',
+        'HOST': '112.74.167.141',
+        'PORT': '3306',
     },
 }
 
