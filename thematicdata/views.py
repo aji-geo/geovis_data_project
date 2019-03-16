@@ -17,7 +17,7 @@ def ditu(request):
     df = pandas.read_csv(r'basemap/static/files/233.csv')
     now_time = datetime.now()
     now_date = now_time.strftime('%Y-%m-%d')
-    now_hour = now_time+timedelta(hours=7)
+    now_hour = now_time+timedelta(hours = 6)
     re_hour = now_hour.strftime('%H')+":00:00"
     if re_hour == '03:00:00':
         re_hour = '02:00:00'
@@ -41,9 +41,9 @@ def ditu(request):
             continue
         con_city = {'lon':siteinfo['jindu'], 'lat':siteinfo['weidu'], 'city':siteinfo['cit']}
 
-        if math.isnan(con_city['lon']) or \
-                math.isnan(con_city['lat']) or \
-                line['aqi'] == '':
+        if math.isnan(con_city['lon'])\
+                or math.isnan(con_city['lat']) \
+                or line['aqi'] == '':
 
             continue
         myproperties = {'city':con_city['city'],
@@ -56,7 +56,7 @@ def ditu(request):
 
         myFeature = getFeature(con_city['lon'],con_city['lat'],myproperties)
         resdata.append(myFeature)
-        myFeatureCollection = FeatureCollection(resdata)
 
+    myFeatureCollection = FeatureCollection(resdata)
     dump = geojson.dumps(myFeatureCollection)
     return HttpResponse(dump)
