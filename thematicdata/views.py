@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.shortcuts import HttpResponse
-from basemap import models  # 导入models文件
+from thematicdata import models  # 导入models文件
 from datetime import datetime, timedelta, date
 from geojson import Feature, FeatureCollection, Point
 import geojson
@@ -14,7 +14,7 @@ def getFeature(lon,lat,my_properties):
 
 def ditu(request):
 
-    df = pandas.read_csv(r'/home/dell/PycharmProjects/Geovis_data/basemap/static/files/233.csv')
+    df = pandas.read_csv(r'basemap/static/files/233.csv')
     now_time = datetime.now()
     now_date = now_time.strftime('%Y-%m-%d')
     now_hour = now_time+timedelta(hours=5)
